@@ -1,0 +1,669 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de produtos",
+        "description": "API para acessar os recursos de produtos",
+        "contact": {
+            "name": "Suporte da minha API",
+            "email": "gian15249@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Realiza o login do usuário na aplicação",
+                "description": "Retorna o token de acesso do usuário para autenticação nas rotas protegidas da API",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "gian.ramalho@teste.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "authorization": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNjc5OTU5MDUxLCJleHAiOjE2Nzk5NjI2NTEsIm5iZiI6MTY3OTk1OTA1MSwianRpIjoiUUwzUnJqaXBpOGcyY0dNSyIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.7YnEcK0jC1TkzSnf5whzDgTtafJP3Zqx0hdebBpxDOc"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "bearer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Logout user",
+                "description": "Remove o token de acesso do usuário para autenticação nas rotas protegidas da API",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Logout feito com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Desconectado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/produtos": {
+            "get": {
+                "tags": [
+                    "Produtos"
+                ],
+                "summary": "Listagem de produtos",
+                "description": "Retorna uma lista de todos os produtos cadastrados.",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "Listagem de produtos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "ID do produto",
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "name": {
+                                                "description": "Nome do produto",
+                                                "type": "string",
+                                                "example": "Apple iPhone 11 (64 GB) Preto"
+                                            },
+                                            "price": {
+                                                "description": "Preço do produto",
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 2951.99
+                                            },
+                                            "description": {
+                                                "description": "Descrição do produto",
+                                                "type": "string",
+                                                "example": "Tela LCD Liquid Retina HD de 6,1 polegadas; Resistente a água e pó (até 30 minutos à profundidade máxima de 2 metros, IP68); Sistema de câmara dupla de 12 MP (Ultra grande angular, Grande angular e Teleobjetiva); modo Noite, modo Retrato e vídeos em 4K a 60 fps; Sistema de câmara frontal de 12 MP com modo Retrato, vídeos em 4K e câmara lenta; Face ID para autenticação segura; Conteúdo da caixa iPhone com iOS 14, cabo USB-C para Lightning, documentação"
+                                            },
+                                            "created_at": {
+                                                "description": "Data de criação do produto",
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-03-28T00:39:46.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "description": "Data da última atualização do produto",
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-03-28T00:39:46.000000Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensagem de erro",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Produtos"
+                ],
+                "summary": "Cria um novo produto",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "price"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Nome do produto",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Descrição do produto",
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "description": "Preço do produto",
+                                        "type": "number",
+                                        "format": "float"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Produto criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "name": {
+                                                    "description": "Nome do produto",
+                                                    "type": "string"
+                                                },
+                                                "description": {
+                                                    "description": "Descrição do produto",
+                                                    "type": "string"
+                                                },
+                                                "price": {
+                                                    "description": "Preço do produto",
+                                                    "type": "number",
+                                                    "format": "float"
+                                                },
+                                                "updated_at": {
+                                                    "description": "Data e hora da última atualização do produto",
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "created_at": {
+                                                    "description": "Data e hora da criação do produto",
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "id": {
+                                                    "description": "ID do produto",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "O campo nome é obrigatório. (e mais 1 erro)"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "name": [
+                                                    "O campo nome é obrigatório."
+                                                ],
+                                                "price": [
+                                                    "O campo price é obrigatório."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/produtos/{id}": {
+            "get": {
+                "tags": [
+                    "Produtos"
+                ],
+                "summary": "Exibe informações de um produto específico",
+                "description": "Retorna as informações de um produto, baseado no ID informado.",
+                "operationId": "showProductById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Informações do produto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Apple iPhone 11 (64 GB) Preto"
+                                                },
+                                                "price": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 2951.99
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Tela LCD Liquid Retina HD de 6,1 polegadas; Resistente a água e pó (até 30 minutos à profundidade máxima de 2 metros, IP68); Sistema de câmara dupla de 12 MP (Ultra grande angular, Grande angular e Teleobjetiva); modo Noite, modo Retrato e vídeos em 4K a 60 fps; Sistema de câmara frontal de 12 MP com modo Retrato, vídeos em 4K e câmara lenta; Face ID para autenticação segura; Conteúdo da caixa iPhone com iOS 14, cabo USB-C para Lightning, documentação"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-03-28T00:39:46.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-03-28T00:39:46.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Produto não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nenhum produto encontrado com o ID especificado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/produtos/{id}": {
+            "post": {
+                "tags": [
+                    "Produtos"
+                ],
+                "summary": "Atualiza um produto existente pelo ID",
+                "description": "Atualiza um produto existente pelo ID.",
+                "operationId": "updateProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto a ser atualizado.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Objeto do produto a ser atualizado",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Nome do produto",
+                                        "type": "string",
+                                        "example": "Nome do produto"
+                                    },
+                                    "description": {
+                                        "description": "Descrição do produto",
+                                        "type": "string",
+                                        "example": "Descrição do produto"
+                                    },
+                                    "price": {
+                                        "description": "Preço do produto",
+                                        "type": "number",
+                                        "example": 10.99
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Produto atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status da resposta",
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "name": {
+                                                    "description": "Nome do produto",
+                                                    "type": "string"
+                                                },
+                                                "description": {
+                                                    "description": "Descrição do produto",
+                                                    "type": "string"
+                                                },
+                                                "price": {
+                                                    "description": "Preço do produto",
+                                                    "type": "number",
+                                                    "format": "float"
+                                                },
+                                                "updated_at": {
+                                                    "description": "Data e hora da última atualização do produto",
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "created_at": {
+                                                    "description": "Data e hora da criação do produto",
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "id": {
+                                                    "description": "ID do produto",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "O campo nome é obrigatório. (e mais 1 erro)"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "name": [
+                                                    "O campo nome é obrigatório."
+                                                ],
+                                                "price": [
+                                                    "O campo price é obrigatório."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensagem de erro",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Produto não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status da resposta",
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "description": "Mensagem de erro",
+                                            "type": "string",
+                                            "example": "Nenhum produto encontrado com o ID especificado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Produtos"
+                ],
+                "summary": "Exclui um produto pelo ID",
+                "description": "Exclui um produto pelo ID informado na URL",
+                "operationId": "destroyProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto a ser excluído",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produto excluído com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Produto excluído com sucesso."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Produto não encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nenhum produto encontrado com o ID especificado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

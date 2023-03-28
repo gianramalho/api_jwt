@@ -36,7 +36,7 @@ class ProductController extends Controller
         // Valida os dados de entrada
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'description' => ['string'],
+            'description' => ['required', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
         ]);
 
@@ -93,7 +93,7 @@ class ProductController extends Controller
             // Valida os dados de entrada
             $validatedData = $request->validate([
                 'name' => ['string', 'max:255'],
-                'description' => ['string'],
+                'description' => ['required', 'string'],
                 'price' => ['numeric', 'min:0'],
             ]);
 

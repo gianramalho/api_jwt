@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -25,11 +24,9 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $user = Auth::user();
         return response()->json([
             'status' => 'success',
-            'user' => $user,
-            'authorisation' => [
+            'authorization' => [
                 'token' => $token,
                 'type' => 'bearer',
             ]
@@ -38,10 +35,10 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Auth::logout();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Desconectado',
-        ]);
+            Auth::logout();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Desconectado',
+            ]);
     }
 }
